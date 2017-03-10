@@ -27,5 +27,5 @@ public @interface RestMethodConfiguration {
 	 * @return relative service url to which this method invocation is directed
 	 *         to.
 	 */
-	String serviceUrl();
+	String serviceUri();
 }

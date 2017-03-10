@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
  * RestClientConfiguration is the means to enable using {@link RestClient} bean.
  * 
  * @author Peter Lehto
- *
  */
 @Configuration
 @EnableConfigurationProperties(RestClientConfigurationProperties.class)
@@ -25,6 +24,9 @@ public class RestClientConfiguration {
 
 	@Bean
 	public RestClient provideRestClient(RestTemplateBuilder templateBuilder) {
+		templateBuilder.rootUri(properties.getServerBaseUrl());
+		templateBuilder.setConnectTimeout(properties.getConnectionTimeout());
+		templateBuilder.setReadTimeout(properties.getReadTimeout());
 		return new DefaultRestClient(templateBuilder.build());
 	}
 }

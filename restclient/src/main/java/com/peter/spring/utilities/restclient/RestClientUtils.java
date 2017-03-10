@@ -1,9 +1,12 @@
 package com.peter.spring.utilities.restclient;
 
+import java.net.URI;
 import java.util.Collection;
+import java.util.Objects;
 
 import org.springframework.aop.support.AopUtils;
 import org.springframework.core.ResolvableType;
+import org.springframework.web.util.UriTemplate;
 
 /**
  * RestClientUtils contains common utilities that {@link RestClient} might be
@@ -36,5 +39,29 @@ public class RestClientUtils {
 		} else {
 			return (Class<RESULT_TYPE>) genericType;
 		}
+	}
+
+	/**
+	 * Parses the serviceUrl from given restMethod.
+	 * 
+	 * @param restMethod
+	 * @return serviceUrl that can be used in context with baseUrl.
+	 * @throws IllegalArgumentException
+	 *             if the type of given restMethod does not declare
+	 *             {@link RestMethodConfiguration} annotation.
+	 */
+	public static <RESULT_TYPE> String parseAndParametrizeRestMethodUri(RestMethod<RESULT_TYPE> restMethod) {
+		Class<?> targetClass = AopUtils.getTargetClass(Objects.requireNonNull(restMethod));
+		if (!targetClass.isAnnotationPresent(RestMethodConfiguration.class)) {
+			throw new IllegalArgumentException(targetClass.getCanonicalName() + " does not declare "
+					+ RestMethodConfiguration.class.getSimpleName() + " annotation");
+		}
+
+		RestMethodConfiguration configuration = targetClass.getAnnotation(RestMethodConfiguration.class);
+		String uri = configuration.serviceUri();
+
+		UriTemplate uriTemplate = new UriTemplate(uri);
+		URI expandedUri = uriTemplate.expand(restMethod.getParameterMap());
+		return expandedUri.toString();
 	}
 }

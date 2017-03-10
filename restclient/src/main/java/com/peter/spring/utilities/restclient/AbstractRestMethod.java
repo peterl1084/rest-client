@@ -2,6 +2,7 @@ package com.peter.spring.utilities.restclient;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,8 +32,18 @@ public class AbstractRestMethod<RESULT_ITEM_TYPE> implements RestMethod<RESULT_I
 	}
 
 	@Override
-	public void addParameter(String name, Number value) {
-		throw new UnsupportedOperationException("Implementation missing");
+	public void addParameter(String name, int value) {
+		parameterMap.put(name, Integer.toString(value));
+	}
+
+	@Override
+	public void addParameter(String name, long value) {
+		parameterMap.put(name, Long.toString(value));
+	}
+
+	@Override
+	public void addParameter(String name, double value) {
+		parameterMap.put(name, Double.toString(value));
 	}
 
 	@Override
@@ -64,4 +75,10 @@ public class AbstractRestMethod<RESULT_ITEM_TYPE> implements RestMethod<RESULT_I
 			}
 		});
 	}
+
+	@Override
+	public Map<String, ?> getParameterMap() {
+		return Collections.unmodifiableMap(parameterMap);
+	}
+
 }
