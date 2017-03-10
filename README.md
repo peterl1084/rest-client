@@ -18,11 +18,11 @@ rest.client.readTimeout = timeout-in-ms
 
 All invocations that can be executed with this RestClient are to implement `RestMethod<RESULT_TYPE>` interface. The `RESULT_TYPE` maybe either a direct return value DTO type or a `Collection<DTO>`, for example:
 
-`class GetCustomerMethod implements RestMethod<Customer>`
+`class GetCustomersMethod implements RestMethod<List<Customer>>`
 
 or
 
-`class GetCustomerMethod implements RestMethod<List<Customer>>`
+`class GetCustomerMethod implements RestMethod<Customer>`
 
 The methods then need to be annotated with `RestMethodConfiguration` that specifies the serviceUri's relative part as well as which HttpMethod is used (GET, POST...)
 
