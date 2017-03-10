@@ -16,7 +16,7 @@ rest.client.readTimeout = timeout-in-ms
 
 ## RestMethod ##
 
-All invocations that can be executed with this RestClient are to implement RestMethod<RESULT_TYPE> interface. The <RESULT_TYPE> maybe either a direct return value DTO type or a Collection<DTO>, for example:
+All invocations that can be executed with this RestClient are to implement `RestMethod<RESULT_TYPE>` interface. The `RESULT_TYPE` maybe either a direct return value DTO type or a `Collection<DTO>`, for example:
 
 `class GetCustomerMethod implements RestMethod<Customer>`
 
@@ -28,7 +28,7 @@ The methods then need to be annotated with `RestMethodConfiguration` that specif
 
 Once done the @Autowired RestClient can be used to invoke the methods directly for example.
 
-```
+```property
 @Autowired
 private RestClient client;
 List<Customer> customers = client.invoke(new GetCustomersMethods());
