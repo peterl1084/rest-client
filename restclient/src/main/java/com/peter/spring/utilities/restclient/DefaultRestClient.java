@@ -7,7 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * DefaultRestClient is the simple default implementation of {@link RestClient}.
+ * DefaultRestClient is the simple default implementation of {@link RestClient}
+ * that handles data exchange with REST backend end-point.
  * 
  * @author Peter Lehto
  */
