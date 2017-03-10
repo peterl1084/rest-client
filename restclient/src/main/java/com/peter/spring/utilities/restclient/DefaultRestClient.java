@@ -2,8 +2,9 @@ package com.peter.spring.utilities.restclient;
 
 import java.util.Objects;
 
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriTemplate;
 
 /**
  * DefaultRestClient is the simple default implementation of {@link RestClient}.
@@ -19,10 +20,17 @@ class DefaultRestClient implements RestClient {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <RESULT_TYPE, METHOD extends RestMethod<RESULT_TYPE>> RESULT_TYPE invoke(METHOD method) {
 		String methodUrl = RestClientUtils.parseAndParametrizeRestMethodUri(method);
-		Class<RESULT_TYPE> responseType = RestClientUtils.findResponseType(method);
-		return null;
+		ParameterizedTypeReference<RESULT_TYPE> completeResponseType = RestClientUtils.getCompleteResponseType(method);
+
+		ResponseEntity<?> response = restTemplate.exchange(methodUrl, method.getHttpMethod(), null,
+				completeResponseType);
+		return (RESULT_TYPE) response.getBody();
 	}
-	
+
+	protected RestTemplate getRestTemplate() {
+		return restTemplate;
+	}
 }

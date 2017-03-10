@@ -3,6 +3,8 @@ package com.peter.spring.utilities.restclient;
 import java.time.LocalDate;
 import java.util.Map;
 
+import org.springframework.http.HttpMethod;
+
 /**
  * RestMethod is the super interface for all RestMethods that need to be invoked
  * through {@link RestClient}
@@ -31,4 +33,17 @@ public interface RestMethod<RESULT_TYPE> {
 	 *         the parameter.
 	 */
 	Map<String, ?> getParameterMap();
+
+	/**
+	 * @return the {@link HttpMethod} defined in {@link RestMethodConfiguration}
+	 *         annotation placed on the class of this RestMethod instance.
+	 */
+	default HttpMethod getHttpMethod() {
+		if (!getClass().isAnnotationPresent(RestMethodConfiguration.class)) {
+			throw new RuntimeException(getClass().getCanonicalName() + " is not annotated with "
+					+ RestMethodConfiguration.class.getCanonicalName());
+		}
+
+		return getClass().getAnnotation(RestMethodConfiguration.class).method();
+	}
 }

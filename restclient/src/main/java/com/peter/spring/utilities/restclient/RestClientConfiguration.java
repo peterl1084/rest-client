@@ -24,9 +24,9 @@ public class RestClientConfiguration {
 
 	@Bean
 	public RestClient provideRestClient(RestTemplateBuilder templateBuilder) {
-		templateBuilder.rootUri(properties.getServerBaseUrl());
-		templateBuilder.setConnectTimeout(properties.getConnectionTimeout());
-		templateBuilder.setReadTimeout(properties.getReadTimeout());
+		templateBuilder = templateBuilder.rootUri(properties.getServerBaseUrl());
+		templateBuilder = templateBuilder.setConnectTimeout(properties.getConnectionTimeout());
+		templateBuilder = templateBuilder.setReadTimeout(properties.getReadTimeout());
 		return new DefaultRestClient(templateBuilder.build());
 	}
 }
