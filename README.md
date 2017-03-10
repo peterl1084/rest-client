@@ -31,7 +31,9 @@ Once done the @Autowired RestClient can be used to invoke the methods directly f
 ```property
 @Autowired
 private RestClient client;
+
 List<Customer> customers = client.invoke(new GetCustomersMethods());
+Customer customer = client.invoke(new GetCustomerMethods(123));
 ```
 
 The client will automatically take care of all type conversion and return type handling as long as the invoked REST method really returns JSON or XML that can be mapped to expected <RESULT_TYPE>.
